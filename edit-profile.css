@@ -1,0 +1,120 @@
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#eef2f7;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+/* Main Container */
+
+.login-container{
+    width:100%;
+    max-width:550px;
+    background:#fff;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Heading */
+
+h1{
+    text-align:center;
+    color:#1f4e79;
+    margin-bottom:30px;
+    font-size:30px;
+    font-weight:600;
+}
+
+/* Form */
+
+form{
+    display:flex;
+    flex-direction:column;
+}
+
+/* Labels */
+
+label{
+    margin-bottom:8px;
+    font-weight:500;
+    color:#444;
+}
+
+/* Input Fields */
+
+input{
+    width:100%;
+    padding:12px 15px;
+    margin-bottom:20px;
+    border:1px solid #d6dbe5;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+    transition:0.3s;
+    background:#fafbfc;
+}
+
+input:focus{
+    border-color:#1f4e79;
+    box-shadow:0 0 8px rgba(31,78,121,0.2);
+    background:#fff;
+}
+
+/* Update Button */
+
+#updateBtn{
+    width:100%;
+    padding:14px;
+    background:#1f4e79;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#updateBtn:hover{
+    background:#173b5d;
+    transform:translateY(-2px);
+}
+
+#updateBtn:active{
+    transform:translateY(0);
+}
+
+/* Responsive */
+
+@media (max-width:600px){
+
+    body{
+        padding:20px;
+    }
+
+    .login-container{
+        padding:25px;
+    }
+
+    h1{
+        font-size:24px;
+    }
+
+    input,
+    #updateBtn{
+        font-size:14px;
+    }
+}

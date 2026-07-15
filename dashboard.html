@@ -24,25 +24,20 @@
 
         <hr>
 
-<h2 id="pageTitle">Employees</h2>
-<div id="profileContainer"></div>
+<h2 id="sectionTitle"></h2>
 
+<!-- ADMIN TABLE -->
 <table id="employeeTable" border="1">
 
     <thead>
 
         <tr>
-<thead>
-    <tr> 
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Department</th>
-        <th>Designation</th>
-        <th id="actionsHeader">Actions</th>
-    </tr>
-</thead>
-
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th id="actionsHeader">Actions</th>
         </tr>
 
     </thead>
@@ -53,13 +48,43 @@
 
 </table>
 
-<br>
+<!-- EMPLOYEE PROFILE -->
 
+<div id="profileCard" style="display:none;">
+
+    <h2>My Profile</h2>
+
+    <p><b>Name :</b> <span id="profileName"></span></p>
+
+    <p><b>Email :</b> <span id="profileEmail"></span></p>
+
+    <p><b>Department :</b> <span id="profileDepartment"></span></p>
+
+    <p><b>Designation :</b> <span id="profileDesignation"></span></p>
+
+    <p><b>Phone :</b> <span id="profilePhone"></span></p>
+
+    <p><b>Address :</b> <span id="profileAddress"></span></p>
+
+    <p><b>Joining Date :</b> <span id="profileJoiningDate"></span></p>
+
+    <br>
+
+  <button id="editProfileBtn">
+        Edit Profile
+    </button>
+
+
+</div>
+
+
+<br>
 <button id="logoutBtn">
     Logout
 </button>
-
     </div>
+
+
 
     <script src="dashboard.js"></script>
 

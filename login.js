@@ -54,7 +54,7 @@ if (response.ok) {
     localStorage.setItem("email", data.email);
     
 
-    window.location.href = "dashboard.html";
+  window.location.replace("dashboard.html");
 
 } else {
 

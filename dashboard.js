@@ -1,6 +1,10 @@
+const sectionTitle = document.getElementById("sectionTitle");
 
+
+const profileCard = document.getElementById("profileCard");
+
+const editProfileBtn = document.getElementById("editProfileBtn");
 const employeeTable = document.getElementById("employeeTable");
-const profileContainer = document.getElementById("profileContainer");
 const actionsHeader = document.getElementById("actionsHeader");
 const employeeBody = document.getElementById("employeeBody");
 const welcomeMessage = document.getElementById("welcomeMessage");
@@ -68,9 +72,15 @@ employeeBody.innerHTML += `
     <td>
 
     ${role === "ADMIN"
-        ? `<button onclick="editEmployee(${employee.id})">Edit</button>`
-        : ""
-    }
+? `
+<button onclick="editEmployee(${employee.id})">Edit</button>
+
+<button onclick="deleteEmployee(${employee.id})">
+Delete
+</button>
+`
+: ""
+}
 
 </td>
 
@@ -85,37 +95,49 @@ employeeBody.innerHTML += `
 async function loadMyProfile(){
 
     const id = localStorage.getItem("id");
-    document.getElementById("pageTitle").innerText = "My Profile";
+    // document.getElementById("pageTitle").innerText = "My Profile";
 
-    const response = await fetch(`http://localhost:8080/employees/${id}`,{
+   const response = await fetch(`http://localhost:8080/employees/${id}`, {
+    headers:{
+        Authorization:"Bearer " + token
+    }
+});
 
-        headers:{
-            Authorization:"Bearer " + token
-        }
+console.log("GET Status:", response.status);
 
-    });
+if (!response.ok) {
+    console.log(await response.text());
+    return;
+}
 
     const employee = await response.json();
+    // console.log(employee);
     employeeTable.style.display = "none";
-profileContainer.innerHTML = `
 
-<p><strong>Name:</strong> ${employee.name}</p>
+profileCard.style.display = "block";
 
-<p><strong>Email:</strong> ${employee.email}</p>
+// sectionTitle.innerText = "My Profile";
 
-<p><strong>Department:</strong> ${employee.department ?? "-"}</p>
+document.getElementById("profileName").innerText = employee.name;
 
-<p><strong>Designation:</strong> ${employee.designation ?? "-"}</p>
+document.getElementById("profileEmail").innerText = employee.email;
 
-<p><strong>Phone:</strong> ${employee.phone ?? "-"}</p>
+document.getElementById("profileDepartment").innerText = employee.department;
 
-<p><strong>Address:</strong> ${employee.address ?? "-"}</p>
+document.getElementById("profileDesignation").innerText = employee.designation;
 
-`;
+document.getElementById("profilePhone").innerText = employee.phone;
+
+document.getElementById("profileAddress").innerText = employee.address;
+
+document.getElementById("profileJoiningDate").innerText = employee.joiningDate;
 
 }
-    if(role === "ADMIN"){
 
+// console.log("Token:", localStorage.getItem("token"));
+// console.log("ID:", localStorage.getItem("id"));
+    if(role === "ADMIN"){
+      sectionTitle.innerText = "Employees";
     loadEmployees();
 
 }else{
@@ -129,6 +151,47 @@ profileContainer.innerHTML = `
     window.location.href = `update.html?id=${id}`;
 
 }
+
+
+async function deleteEmployee(id) {
+
+    const confirmDelete = confirm("Are you sure you want to delete this employee?");
+
+    if (!confirmDelete) {
+        return;
+    }
+
+    const response = await fetch(`http://localhost:8080/employees/${id}`, {
+
+        method: "DELETE",
+
+        headers: {
+
+            Authorization: "Bearer " + token
+
+        }
+
+    });
+
+    if (response.ok) {
+
+        alert("Employee deleted successfully");
+
+        loadEmployees();
+
+    } else {
+
+        alert("Failed to delete employee");
+
+    }
+
+}
+
+editProfileBtn.addEventListener("click", () => {
+
+    window.location.href = "edit-profile.html";
+
+});
 
     
 
@@ -144,6 +207,6 @@ localStorage.removeItem("id");
 
     alert("Logged out successfully");
 
-    window.location.href = "login.html";
+    window.location.replace("login.html");
 
 });
