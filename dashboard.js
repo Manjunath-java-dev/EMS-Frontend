@@ -1,8 +1,9 @@
+
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+const resetBtn = document.getElementById("resetBtn");
 const sectionTitle = document.getElementById("sectionTitle");
-
-
 const profileCard = document.getElementById("profileCard");
-
 const editProfileBtn = document.getElementById("editProfileBtn");
 const employeeTable = document.getElementById("employeeTable");
 const actionsHeader = document.getElementById("actionsHeader");
@@ -89,6 +90,57 @@ Delete
 `;
 
 });
+
+}
+
+async function searchEmployees() {
+
+    const name = searchInput.value;
+
+    const response = await fetch(
+        `http://localhost:8080/employees/searchByName?name=${name}`,
+        {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        }
+    );
+
+    const employees = await response.json();
+
+    console.log(employees);
+
+    employeeBody.innerHTML = "";
+
+    employees.forEach(employee => {
+
+        employeeBody.innerHTML += `
+
+<tr>
+
+<td>${employee.id}</td>
+
+<td>${employee.name}</td>
+
+<td>${employee.email}</td>
+
+<td>${employee.department ?? "-"}</td>
+
+<td>${employee.designation ?? "-"}</td>
+
+<td>
+
+<button onclick="editEmployee(${employee.id})">Edit</button>
+
+<button onclick="deleteEmployee(${employee.id})">Delete</button>
+
+</td>
+
+</tr>
+
+`;
+
+    });
 
 }
 
@@ -208,5 +260,14 @@ localStorage.removeItem("id");
     alert("Logged out successfully");
 
     window.location.replace("login.html");
+
+});
+
+searchBtn.addEventListener("click", searchEmployees);
+resetBtn.addEventListener("click", () => {
+
+    searchInput.value = "";
+
+    loadEmployees();
 
 });

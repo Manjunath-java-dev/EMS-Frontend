@@ -227,3 +227,56 @@ button{
         width:100%;
     }
 }
+
+/* =========================
+        SEARCH SECTION
+========================= */
+
+#searchInput{
+    width:300px;
+    padding:12px 15px;
+    border:1px solid #d6dbe5;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+    transition:0.3s;
+    margin-right:10px;
+}
+
+#searchInput:focus{
+    border-color:#1f4e79;
+    box-shadow:0 0 8px rgba(31,78,121,0.2);
+}
+
+/* Search Button */
+#searchBtn{
+    background:#1f4e79;
+    color:#fff;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:500;
+    transition:0.3s;
+    margin-right:10px;
+}
+
+#searchBtn:hover{
+    background:#173b5d;
+}
+
+/* Reset Button */
+#resetBtn{
+    background:#6c757d;
+    color:#fff;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:500;
+    transition:0.3s;
+}
+
+#resetBtn:hover{
+    background:#5a6268;
+}
