@@ -18,6 +18,7 @@ const welcomeMessage = document.getElementById("welcomeMessage");
 const roleText = document.getElementById("role");
 const logoutBtn = document.getElementById("logoutBtn");
 const searchContainer = document.getElementById("searchContainer");
+const paginationControls = document.getElementById("paginationControls");
 
 
 // Check if user is logged in
@@ -323,11 +324,13 @@ if (role === "ADMIN") {
 
     searchContainer.style.display = "block";
     employeeTable.style.display = "table";
+    paginationControls.style.display = "block";
 
 } else {
 
     searchContainer.style.display = "none";
     employeeTable.style.display = "none";
+    paginationControls.style.display = "none";
     profileCard.style.display = "block";
 
 }
