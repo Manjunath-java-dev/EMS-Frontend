@@ -26,18 +26,15 @@
 
 <h2 id="sectionTitle"></h2>
 
-<input
-    type="text"
-    id="searchInput"
-    placeholder="Search employee by name">
+<div id="searchContainer">
 
-<button id="searchBtn">
-    Search
-</button>
+    <input type="text" id="searchInput" placeholder="Search employee by name">
 
-<button id="resetBtn">
-    Reset
-</button>
+    <button id="searchBtn">Search</button>
+
+    <button id="resetBtn">Reset</button>
+
+</div>
 
 <br><br>
 
@@ -62,6 +59,15 @@
     </tbody>
 
 </table>
+<div id="paginationControls">
+
+    <button id="prevBtn">Previous</button>
+
+    <span id="pageInfo"></span>
+
+    <button id="nextBtn">Next</button>
+
+</div>
 
 <!-- EMPLOYEE PROFILE -->
 

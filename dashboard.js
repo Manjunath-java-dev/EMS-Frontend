@@ -1,4 +1,10 @@
+let currentPage = 0;
+const pageSize = 5;
+let totalPages = 0;
 
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const pageInfo = document.getElementById("pageInfo");
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
 const resetBtn = document.getElementById("resetBtn");
@@ -11,6 +17,7 @@ const employeeBody = document.getElementById("employeeBody");
 const welcomeMessage = document.getElementById("welcomeMessage");
 const roleText = document.getElementById("role");
 const logoutBtn = document.getElementById("logoutBtn");
+const searchContainer = document.getElementById("searchContainer");
 
 
 // Check if user is logged in
@@ -39,17 +46,20 @@ roleText.innerText = "Role : " + role;
 
 async function loadEmployees() {
 
-    const response = await fetch("http://localhost:8080/employees", {
-
+   const response = await fetch(
+    `http://localhost:8080/employees?page=${currentPage}&size=${pageSize}`,
+    {
         headers: {
-
-            Authorization: "Bearer " + localStorage.getItem("token")
-
+            Authorization: "Bearer " + token
         }
-
-    });
+    }
+);
 
     const data = await response.json();
+    totalPages = data.totalPages;
+
+pageInfo.innerText =
+    `Page ${currentPage + 1} of ${totalPages}`;
 
     console.log(data);
 
@@ -95,6 +105,8 @@ Delete
 
 async function searchEmployees() {
 
+    currentPage = 0;
+
     const name = searchInput.value;
 
     const response = await fetch(
@@ -107,6 +119,7 @@ async function searchEmployees() {
     );
 
     const employees = await response.json();
+    document.getElementById("paginationControls").style.display = "none";
 
     console.log(employees);
 
@@ -168,7 +181,7 @@ if (!response.ok) {
 
 profileCard.style.display = "block";
 
-// sectionTitle.innerText = "My Profile";
+
 
 document.getElementById("profileName").innerText = employee.name;
 
@@ -188,11 +201,15 @@ document.getElementById("profileJoiningDate").innerText = employee.joiningDate;
 
 // console.log("Token:", localStorage.getItem("token"));
 // console.log("ID:", localStorage.getItem("id"));
-    if(role === "ADMIN"){
-      sectionTitle.innerText = "Employees";
+   if (role === "ADMIN") {
+
+    sectionTitle.innerText = "Employees";
+
+    document.getElementById("paginationControls").style.display = "block";
+
     loadEmployees();
 
-}else{
+} else {
 
     loadMyProfile();
 
@@ -204,6 +221,28 @@ document.getElementById("profileJoiningDate").innerText = employee.joiningDate;
 
 }
 
+prevBtn.addEventListener("click", () => {
+
+    if (currentPage > 0) {
+
+        currentPage--;
+
+        loadEmployees();
+
+    }
+
+});
+nextBtn.addEventListener("click", () => {
+
+    if (currentPage < totalPages - 1) {
+
+        currentPage++;
+
+        loadEmployees();
+
+    }
+
+});
 
 async function deleteEmployee(id) {
 
@@ -229,7 +268,11 @@ async function deleteEmployee(id) {
 
         alert("Employee deleted successfully");
 
-        loadEmployees();
+        if (currentPage > 0 && employeeBody.rows.length === 1) {
+    currentPage--;
+}
+
+loadEmployees();
 
     } else {
 
@@ -268,6 +311,23 @@ resetBtn.addEventListener("click", () => {
 
     searchInput.value = "";
 
+    currentPage = 0;
+
+    document.getElementById("paginationControls").style.display = "block";
+
     loadEmployees();
 
 });
+
+if (role === "ADMIN") {
+
+    searchContainer.style.display = "block";
+    employeeTable.style.display = "table";
+
+} else {
+
+    searchContainer.style.display = "none";
+    employeeTable.style.display = "none";
+    profileCard.style.display = "block";
+
+}
