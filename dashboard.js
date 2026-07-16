@@ -1,6 +1,7 @@
 let currentPage = 0;
 const pageSize = 5;
 let totalPages = 0;
+let sortValue = "";
 
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
@@ -19,6 +20,7 @@ const roleText = document.getElementById("role");
 const logoutBtn = document.getElementById("logoutBtn");
 const searchContainer = document.getElementById("searchContainer");
 const paginationControls = document.getElementById("paginationControls");
+const sortSelect = document.getElementById("sortSelect");
 
 
 // Check if user is logged in
@@ -47,14 +49,14 @@ roleText.innerText = "Role : " + role;
 
 async function loadEmployees() {
 
-   const response = await fetch(
-    `http://localhost:8080/employees?page=${currentPage}&size=${pageSize}`,
-    {
-        headers: {
-            Authorization: "Bearer " + token
+    const response = await fetch(
+        `http://localhost:8080/employees?page=${currentPage}&size=${pageSize}&sort=${sortValue}`,
+        {
+            headers: {
+                Authorization: "Bearer " + token
+            }
         }
-    }
-);
+    );
 
     const data = await response.json();
     totalPages = data.totalPages;
@@ -105,10 +107,21 @@ Delete
 }
 
 async function searchEmployees() {
+     const name = searchInput.value.trim();
+
+    if (name === "") {
+
+        currentPage = 0;
+
+        loadEmployees();
+
+        return;
+
+    }
 
     currentPage = 0;
 
-    const name = searchInput.value;
+  
 
     const response = await fetch(
         `http://localhost:8080/employees/searchByName?name=${name}`,
@@ -315,6 +328,16 @@ resetBtn.addEventListener("click", () => {
     currentPage = 0;
 
     document.getElementById("paginationControls").style.display = "block";
+
+    loadEmployees();
+
+});
+
+sortSelect.addEventListener("change", () => {
+
+    sortValue = sortSelect.value;
+
+    currentPage = 0;
 
     loadEmployees();
 
